@@ -14,4 +14,12 @@ defmodule PingpongTest do
     # assert that we got a reply
     assert_receive {:pong, ^ping}
   end
+
+  test "it responds to two messages" do
+    ping = spawn Ping, :start, []
+    send ping, {:ping, self()}
+    assert_receive {:pong, ^ping}
+    send ping, {:ping, self()}
+    assert_receive {:pong, ^ping}
+  end
 end
