@@ -1,8 +1,12 @@
 defmodule Ping do
   def start do
-    # pattern match on messages and send replies
+    loop()
+  end
+
+  def loop do
     receive do
       {:ping, from} -> send from, {:pong, self()}
     end
+    loop()
   end
 end
