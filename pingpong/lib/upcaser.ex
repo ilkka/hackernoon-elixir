@@ -11,4 +11,11 @@ defmodule Upcaser do
     end
     loop()
   end
+
+  def upcase(pid, str) do
+    send pid, {self(), {:upcase, str}}
+    receive do
+      {:ok, str} -> {:ok, str}
+    end
+  end
 end
