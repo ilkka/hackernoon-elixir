@@ -4,6 +4,14 @@ defmodule Fridge do
   """
   use GenServer
 
+  ### Client API
+
+  def start_link(options \\ []) do
+    GenServer.start_link __MODULE__, [], options
+  end
+
+  ### Server API
+
   def init(_) do
     {:ok, []}
   end
