@@ -10,6 +10,14 @@ defmodule Fridge do
     GenServer.start_link __MODULE__, [], options
   end
 
+  def store(pid, item) do
+    GenServer.call(pid, {:store, item})
+  end
+
+  def take(pid, item) do
+    GenServer.call(pid, {:take, item})
+  end
+
   ### Server API
 
   def init(_) do

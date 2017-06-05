@@ -4,18 +4,18 @@ defmodule FridgeTest do
 
   test "putting a thing in the fridge" do
     {:ok, fridge} = Fridge.start_link
-    assert :ok == GenServer.call(fridge, {:store, :bacon})
+    assert :ok == Fridge.store(fridge, :bacon)
   end
 
   test "taking a thing from the fridge" do
     {:ok, fridge} = Fridge.start_link
-    GenServer.call(fridge, {:store, :bacon})
-    assert {:ok, :bacon} == GenServer.call(fridge, {:take, :bacon})
+    Fridge.store(fridge, :bacon)
+    assert {:ok, :bacon} == Fridge.take(fridge, :bacon)
   end
 
   test "taking something from the fridge that is not there" do
     {:ok, fridge} = Fridge.start_link
-    assert :not_found == GenServer.call(fridge, {:take, :bacon})
+    assert :not_found == Fridge.take(fridge, :bacon)
   end
 
 end
