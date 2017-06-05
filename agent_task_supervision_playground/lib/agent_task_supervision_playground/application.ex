@@ -5,6 +5,8 @@ defmodule AgentTaskSupervisionPlayground.Application do
 
   use Application
 
+  alias AgentTaskSupervisionPlayground.Bucket
+
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
@@ -12,7 +14,8 @@ defmodule AgentTaskSupervisionPlayground.Application do
     children = [
       # Starts a worker by calling: AgentTaskSupervisionPlayground.Worker.start_link(arg1, arg2, arg3)
       # worker(AgentTaskSupervisionPlayground.Worker, [arg1, arg2, arg3]),
-      supervisor(Task.Supervisor, [[name: SuperVizier]])
+      supervisor(Task.Supervisor, [[name: SuperVizier]]),
+      worker(Bucket, [OurBucket])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

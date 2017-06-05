@@ -17,7 +17,6 @@ defmodule AgentTaskSupervisionPlaygroundTest do
   end
 
   test "working with an agent" do
-    {:ok, _} = Bucket.start_link(OurBucket)
     Bucket.push(OurBucket, :foo)
     assert :foo == Bucket.head(OurBucket)
   end
