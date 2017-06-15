@@ -1,46 +1,47 @@
 defmodule RpnServer.Calculator do
+  use GenServer
+
   @moduledoc """
   The calculator worker module. Add to supervision tree, do work.
   """
 
-  def start_link(name) do
-    Agent.start_link(fn() -> [] end, [name: name])
-  end
+  # client
 
-  def clear(pid) do
-    Agent.update(pid, fn(_state) -> [] end)
+  def start do
+    GenServer.start(__MODULE__, [])
   end
 
   def peek(pid) do
-    Agent.get(pid, fn(state) -> state end)
-  end
-
-  def pop(pid) do
-    Agent.get_and_update(pid, fn([first | rest]) -> {first, rest} end)
-  end
-
-  def push(pid, :+) do
-    Agent.update(pid, fn(state) ->
-      [second | [first | rest ]] = state
-      [first + second | rest]
-    end)
-  end
-
-  def push(pid, :-) do
-    Agent.update(pid, fn(state) ->
-      [second | [first | rest ]] = state
-      [first - second | rest]
-    end)
-  end
-
-  def push(pid, :x) do
-    Agent.update(pid, fn(state) ->
-      [second | [first | rest ]] = state
-      [first * second | rest]
-    end)
+    GenServer.call(pid, :peek)
   end
 
   def push(pid, val) do
-    Agent.update(pid, fn(state) -> [val | state] end)
+    GenServer.cast(pid, {:push, val})
+  end
+
+  ### server
+
+  def init() do
+    {:ok, []}
+  end
+
+  def handle_call(:peek, _from, state) do
+    {:reply, state, state}
+  end
+
+  def handle_cast({:push, :+}, _from, [second | [first | rest ]]) do
+    {:noreply, [(first + second) | rest]}
+  end
+
+  def handle_cast({:push, :-}, _from, [second | [first | rest ]]) do
+    {:noreply, [(first - second) | rest]}
+  end
+
+  def handle_cast({:push, :x}, _from, [second | [first | rest ]]) do
+    {:noreply, [(first * second) | rest]}
+  end
+
+  def handle_cast({:push, val}, _from, state) do
+    {:noreply, [val | state]}
   end
 end
