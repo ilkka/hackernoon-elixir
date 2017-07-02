@@ -12,7 +12,8 @@ defmodule RpnServer.Application do
     children = [
       # Starts a worker by calling: RpnServer.Worker.start_link(arg1, arg2, arg3)
       # worker(RpnServer.Worker, [arg1, arg2, arg3]),
-      worker(RpnServer.Calculator, [Default])
+      worker(RpnServer.TapePrinter, []),
+      worker(RpnServer.Calculator, [[name: Rpn]])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
