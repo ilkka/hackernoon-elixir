@@ -25,10 +25,21 @@ defmodule FirestormData.PostTest do
     test "finding a post by user", %{firstpost: firstpost, ahto: ahto} do
       query =
         from p in Post,
-          where: p.user_id == ^ahto.id
+          where: p.user_id == ^ahto.id,
+          preload: [:user]
 
       posts = Repo.all query
-      assert firstpost in posts
+      assert firstpost.id in Enum.map(posts, &(&1.id))
+      assert hd(posts).user.username == "ahto"
+    end
+
+    test "counting posts in a thread", %{thread: thread} do
+      query =
+        from p in Post,
+          where: p.thread_id == ^thread.id
+
+      postcount = Repo.aggregate(query, :count, :id)
+      assert postcount == 2
     end
   end
 
