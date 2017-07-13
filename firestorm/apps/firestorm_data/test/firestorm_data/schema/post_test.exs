@@ -69,8 +69,14 @@ defmodule FirestormData.PostTest do
       %Thread{category_id: category.id, title: "Thread3"} |> Repo.insert!
     thread3post =
       %Post{thread_id: thread3.id, user_id: jorma.id, body: "Thread3post"} |> Repo.insert!
+    thread4 =
+      %Thread{category_id: category.id, title: "Thread4"} |> Repo.insert!
+    thread4post =
+      %Post{thread_id: thread4.id, user_id: ahto.id, body: "Thread4post"} |> Repo.insert!
 
-    {:ok, threads: [thread1, thread2, thread3], posts: [thread1post1, thread1post2, thread2post, thread3post]}
+    {:ok,
+     threads: [thread1, thread2, thread3, thread4],
+     posts: [thread1post1, thread1post2, thread2post, thread3post, thread4post]}
   end
 
 end
