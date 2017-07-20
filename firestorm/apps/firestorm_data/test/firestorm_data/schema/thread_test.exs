@@ -5,18 +5,6 @@ defmodule FirestormData.ThreadTest do
 
   setup do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
-    {:ok, category} = %Category{title: "Elixir"} |> Repo.insert
-    # This last bit is us returning test metadata that gets passed to
-    # the individual tests
-    {:ok, category: category}
-  end
-
-  test "creating a thread", %{category: category} do
-    changeset =
-      %Thread{}
-      |> Thread.changeset(%{category_id: category.id, title: "Elixir rocks"})
-
-    assert {:ok, _} = Repo.insert changeset
   end
 
   test "finding the three threads with the most recent posts in a given category" do
