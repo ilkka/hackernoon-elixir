@@ -42,8 +42,21 @@ defmodule FirestormData.PostTest do
       assert postcount == 2
     end
     
-    test "find three most recently updated threads", %{threads: threads} do
-      assert true
+    test "find three threads with the most recent posts", %{threads: threads} do
+      post_query =
+        from p in Post,
+          select: {p.thread_id},
+          group_by: p.thread_id,
+          order_by: [desc: fragment("max(?)", p.inserted_at)]
+
+      thread_query =
+        from t in Thread,
+          join: p in Post,
+          where: p.thread_id == t.id,
+          limit: 3
+
+      threads = Repo.all thread_query
+      assert Enum.count(threads) == 3
     end
   end
 
