@@ -7,3 +7,6 @@ config :firestorm_data, FirestormData.Repo,
   password: System.get_env("POSTGRES_PASSWORD") || "postgres",
   hostname: System.get_env("POSTGRES_HOST") || "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+# shut ecto up so it doesn't print all queries
+config :logger, level: :warn
