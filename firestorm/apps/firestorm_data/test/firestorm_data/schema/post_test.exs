@@ -1,7 +1,6 @@
 defmodule FirestormData.PostTest do
-  alias FirestormData.{Category, User, Thread, Post, Repo}
+  alias FirestormData.{Post, Repo}
   use ExUnit.Case
-  import Ecto.Query
   import FirestormData.Factory
 
   setup do

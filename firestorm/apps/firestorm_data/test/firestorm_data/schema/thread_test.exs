@@ -1,5 +1,5 @@
 defmodule FirestormData.ThreadTest do
-  alias FirestormData.{Category, Thread, Repo}
+  alias FirestormData.{Thread, Repo}
   import FirestormData.Factory
   use ExUnit.Case
 
