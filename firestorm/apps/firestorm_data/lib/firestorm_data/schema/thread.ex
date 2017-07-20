@@ -35,4 +35,14 @@ defmodule FirestormData.Thread do
       |> select([t], t)
       |> limit(3)
   end
+
+  def posted_in_by_user(user) do
+    import Ecto.Query
+    alias FirestormData.{Post, Thread}
+    
+    Post
+      |> where([p], p.user_id == ^user.id)
+      |> join(:inner, [p], t in Thread, p.thread_id == t.id)
+      |> select([p, t], t)
+  end
 end
