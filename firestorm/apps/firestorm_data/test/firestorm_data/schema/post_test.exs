@@ -25,4 +25,18 @@ defmodule FirestormData.PostTest do
     refute post5.id in post_ids
     refute post6.id in post_ids
   end
+
+  test "finding posts with a substring" do
+    post = insert(:post, %{body: "effrevescent banana spanner"})
+    insert(:post, %{body: "cyclopean grapefruit auger"})
+    insert(:post, %{body: "euclidian kiwi saw"})
+
+    post_ids =
+      "banana"
+      |> Post.containing_body
+      |> Repo.all
+      |> Enum.map(&(&1.id))
+
+    assert [post.id] == post_ids
+  end
 end
