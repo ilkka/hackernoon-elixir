@@ -45,4 +45,13 @@ defmodule FirestormData.Thread do
       |> join(:inner, [p], t in Thread, p.thread_id == t.id)
       |> select([p, t], t)
   end
+
+  def post_count(thread) do
+    import Ecto.Query
+    alias FirestormData.Post
+
+    Post
+      |> where([p], p.thread_id == ^thread.id)
+      |> select([p], count("*"))
+  end
 end

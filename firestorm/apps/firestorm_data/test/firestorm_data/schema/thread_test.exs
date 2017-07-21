@@ -58,4 +58,11 @@ defmodule FirestormData.ThreadTest do
     assert thread3.id in user_thread_ids
     refute thread2.id in user_thread_ids
   end
+
+  test "count number of posts in thread" do
+    thread = insert(:thread)
+    insert_list(5, :post, %{thread: thread})
+
+    assert 5 = thread |> Thread.post_count |> Repo.one
+  end
 end
